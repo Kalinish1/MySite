@@ -3,17 +3,17 @@ networks:
   core-dev:
     driver: bridge
 services:
-  app:
-    container_name: Core
-    build:
-      context: ..
-      dockerfile: Core/Dockerfile
-    ports:
-      - "80:80"
-    networks:
-      - core-dev
-    depends_on:
-      - postgres_db
+  #app:
+   # container_name: Core
+   # build:
+   #   context: ..
+   #   dockerfile: Core/Dockerfile
+   # ports:
+   #   - "80:80"
+   # networks:
+   #   - core-dev
+   # depends_on:
+   #   - postgres_db
   postgres_db:
     container_name: postgres_core
     image: postgres:latest
@@ -22,7 +22,7 @@ services:
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: core-dev
     ports:
-      - "5434:5432"
+      - "5435:5432"
     networks:
       - core-dev
     volumes:
