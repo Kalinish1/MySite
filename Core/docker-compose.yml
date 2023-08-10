@@ -1,0 +1,36 @@
+version: "3.9"
+networks:
+  core-dev:
+    driver: bridge
+services:
+  app:
+    container_name: Core
+    build:
+      context: ..
+      dockerfile: Core/Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - core-dev
+    depends_on:
+      - postgres_db
+  postgres_db:
+    container_name: postgres_core
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: core-dev
+    ports:
+      - "5434:5432"
+    networks:
+      - core-dev
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+volumes:
+  postgres-data:
