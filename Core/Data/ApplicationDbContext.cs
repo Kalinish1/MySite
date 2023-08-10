@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Data
 {
@@ -8,5 +9,6 @@ namespace Core.Data
         {
             
         }
+        public DbSet<Category> Categories { get; set; }
     }
 }
