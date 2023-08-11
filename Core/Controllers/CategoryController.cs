@@ -1,4 +1,5 @@
 ﻿using Core.Data;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Controllers
@@ -14,6 +15,19 @@ namespace Core.Controllers
         {
             var objectCategoryList = _db.Categories.ToList();
             return View(objectCategoryList);
+        }
+        public IActionResult Create()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Category obj)
+        {
+            _db.Categories.Add(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index", "Category");
         }
     }
 }
