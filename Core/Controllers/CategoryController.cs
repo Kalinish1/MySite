@@ -38,5 +38,32 @@ namespace Core.Controllers
             } 
             return View();
         }
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+           // var category = _db.Categories.Find(id);
+            var category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            //var category2 = _db.Categories.Where(c => c.Id == id).FirstOrDefault();
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Category obj)
+        {
+            if (ModelState.IsValid) // server validation (from model data annotations)
+            {
+                _db.Categories.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index", "Category");
+            }
+            return View();
+        }
     }
 }
