@@ -65,5 +65,33 @@ namespace Core.Controllers
             }
             return View();
         }
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            // var category = _db.Categories.Find(id);
+            var category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            //var category2 = _db.Categories.Where(c => c.Id == id).FirstOrDefault();
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePOST(int? id)
+        {
+            var obj = _db.Categories.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.Categories.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index", "Category");
+        }
     }
 }
