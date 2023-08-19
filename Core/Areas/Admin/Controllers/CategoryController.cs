@@ -3,8 +3,9 @@ using Core.DataAccess.Repository.IRepository;
 using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Core.Controllers
+namespace Core.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -37,7 +38,7 @@ namespace Core.Controllers
                 _unitOfWork.Save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index", "Category");
-            } 
+            }
             return View();
         }
         public IActionResult Edit(int? id)
@@ -46,7 +47,7 @@ namespace Core.Controllers
             {
                 return NotFound();
             }
-           // var category = _categoryRepository.Categories.Find(id);
+            // var category = _categoryRepository.Categories.Find(id);
             var category = _unitOfWork.Category.Get(c => c.Id == id);
             //var category2 = _categoryRepository.Categories.Where(c => c.Id == id).FirstOrDefault();
             if (category == null)
