@@ -7,14 +7,14 @@ namespace Core.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepository;
-        public CategoryController(ICategoryRepository db)
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _categoryRepository = db;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            var objectCategoryList = _categoryRepository.GetAll().ToList();
+            var objectCategoryList = _unitOfWork.Category.GetAll().ToList();
             return View(objectCategoryList);
         }
         public IActionResult Create()
@@ -33,8 +33,8 @@ namespace Core.Controllers
             }
             if (ModelState.IsValid) // server validation (from model data annotations)
             {
-                _categoryRepository.Add(obj);
-                _categoryRepository.Save();
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index", "Category");
             } 
@@ -47,7 +47,7 @@ namespace Core.Controllers
                 return NotFound();
             }
            // var category = _categoryRepository.Categories.Find(id);
-            var category = _categoryRepository.Get(c => c.Id == id);
+            var category = _unitOfWork.Category.Get(c => c.Id == id);
             //var category2 = _categoryRepository.Categories.Where(c => c.Id == id).FirstOrDefault();
             if (category == null)
             {
@@ -61,8 +61,8 @@ namespace Core.Controllers
         {
             if (ModelState.IsValid) // server validation (from model data annotations)
             {
-                _categoryRepository.Update(obj);
-                _categoryRepository.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Category updated successfully";
                 return RedirectToAction("Index", "Category");
             }
@@ -75,7 +75,7 @@ namespace Core.Controllers
                 return NotFound();
             }
             // var category = _categoryRepository.Categories.Find(id);
-            var category = _categoryRepository.Get(c => c.Id == id);
+            var category = _unitOfWork.Category.Get(c => c.Id == id);
             //var category2 = _categoryRepository.Categories.Where(c => c.Id == id).FirstOrDefault();
             if (category == null)
             {
@@ -87,13 +87,13 @@ namespace Core.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            var obj = _categoryRepository.Get(c => c.Id == id);
+            var obj = _unitOfWork.Category.Get(c => c.Id == id);
             if (obj == null)
             {
                 return NotFound();
             }
-            _categoryRepository.Remove(obj);
-            _categoryRepository.Save();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Save();
             TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index", "Category");
         }
