@@ -31,6 +31,8 @@ services:
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4:7.2
+    depends_on:
+      - postgres_db
     environment:
       PGADMIN_DEFAULT_EMAIL: "www.vol@yandex.ru"
       PGADMIN_DEFAULT_PASSWORD: "123"

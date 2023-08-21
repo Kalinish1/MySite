@@ -2,7 +2,10 @@
 using Core.DataAccess.Repository.IRepository;
 using Core.Models;
 using Core.Models.Models;
+using Core.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace Core.Web.Areas.Admin.Controllers
 {
@@ -21,25 +24,48 @@ namespace Core.Web.Areas.Admin.Controllers
         }
         public IActionResult Create()
         {
-            return View();
+            //преобразуем список в SelectListItem для создания dropdown 
+            //ViewBag.CategoryList = CategoryList;
+            //ViewData["CategoryList"] = CategoryList;
+            ProductVM productVM = new()
+            {
+                CategoryList = _unitOfWork.Category
+                    .GetAll().Select(u => new SelectListItem
+                    {
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    }),
+                Product = new Product()
+            };
+            return View(productVM);
         }
 
         [HttpPost]
-        public IActionResult Create(Product obj)
+        public IActionResult Create(ProductVM productVM)
         {
-            if (obj.Title != null && obj.Title == obj.Description.ToString())
+            if (productVM.Product.Title != null && productVM.Product.Title == productVM.Product.Description.ToString())
             { //custom validation
                 ModelState.AddModelError("description",
                     "Description can't match the Name.");
             }
             if (ModelState.IsValid) // server validation (from model data annotations)
             {
-                _unitOfWork.Product.Add(obj);
+                _unitOfWork.Product.Add(productVM.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index", "Product");
             }
-            return View();
+            else // dropdown populating if modelState.isValid == false
+            {
+                productVM.CategoryList = _unitOfWork.Category
+                    .GetAll().Select(u => new SelectListItem
+                    {
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    });
+                return View(productVM);
+            }
+            
         }
         public IActionResult Edit(int? id)
         {
