@@ -1,9 +1,19 @@
 ﻿@model ProductVM
-<form method="post">
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class="text-primary"> Create Product</h2>
+
+<div class="card shadow border-0 my-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-4">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-primary">@(Model.Product.Id!=0?"Update":"Create") Product</h2>
+            </div>
         </div>
+    </div>
+</div>
+
+
+<form method="post" enctype="multipart/form-data">
+    <input asp-for="Product.Id" hidden />
+    <div class="border p-3 mt-4">
         @*<div asp-validation-summary="All"></div>*@
         <div class="mb-3 row p-1">
             <label asp-for="Product.Title" class="p-0"></label>
@@ -35,8 +45,7 @@
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="Product.ImageUrl" class="p-0"></label>
-            <input asp-for="Product.ImageUrl" class="form-control" />
-            <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+            <input type="file" class="form-control border-0 shadow">
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="Product.ListPrice" class="p-0"></label>
@@ -61,7 +70,15 @@
 
         <div class="row">
             <div class="col-6 col-md-3">
-                <button type="submit" class="btn btn-primary form-control">Create</button>
+                @if(Model.Product.Id!=0)
+                {
+                    <button type="submit" class="btn btn-primary form-control">Update</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary form-control">Create</button>
+
+                }
             </div>
             <div class="col-6 col-md-3">
                 <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary  form-control">Back to list</a>
