@@ -70,15 +70,32 @@ namespace Core.Web.Areas.Admin.Controllers
                     // saving image
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwwRootPath, @"images\product");
+                    if(!string.IsNullOrEmpty(productVM.Product.ImageUrl))
+                    {
+                        //delete the old image
+                        var oldImagePath = Path.Combine(wwwRootPath,
+                                productVM.Product.ImageUrl.TrimStart('\\'));
+                        if(System.IO.File.Exists(oldImagePath)) { System.IO.File.Delete(oldImagePath); }
+                    }
                     using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
                     productVM.Product.ImageUrl = @"images\product\" + fileName;
                 }
-                _unitOfWork.Product.Add(productVM.Product);
+                if(productVM.Product.Id == 0)
+                {
+                    TempData["success"] = "Product created successfully";
+                    _unitOfWork.Product.Add(productVM.Product);
+                }
+                else
+                {
+                    TempData["success"] = "Product updated successfully";
+                    _unitOfWork.Product.Update(productVM.Product);
+                }
+                
                 _unitOfWork.Save();
-                TempData["success"] = "Product created successfully";
+    
                 return RedirectToAction("Index", "Product");
             }
             else // dropdown populating if modelState.isValid == false
