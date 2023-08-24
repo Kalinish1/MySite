@@ -21,7 +21,8 @@ namespace Core.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var objectProductList = _unitOfWork.Product.GetAll().ToList();
+            var objectProductList = _unitOfWork.Product
+                .GetAll(includeProperties:("Category")).ToList();
             return View(objectProductList);
         }
         public IActionResult Upsert(int? id)
