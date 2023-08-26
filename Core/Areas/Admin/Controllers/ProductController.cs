@@ -3,6 +3,8 @@ using Core.DataAccess.Repository.IRepository;
 using Core.Models;
 using Core.Models.Models;
 using Core.Models.ViewModels;
+using Core.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.Collections.Generic;
 namespace Core.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
