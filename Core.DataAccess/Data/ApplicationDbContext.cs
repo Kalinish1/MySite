@@ -1,10 +1,12 @@
 ﻿using Core.Models;
 using Core.Models.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext :  IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -15,6 +17,7 @@ namespace Core.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder); // for Identity correct working
             modelBuilder.Entity<Category>().HasData(
                     new Category { Id= 1, Name = "Action", DisplayOrder = 450},
                     new Category { Id = 2, Name = "SciFi", DisplayOrder = 100 },
