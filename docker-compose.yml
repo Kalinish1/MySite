@@ -1,17 +1,17 @@
 version: "3.9"
-networks:
-  core-dev:
-    driver: bridge
+# networks:
+#   core-dev:
+#     driver: bridge
 services:
   app:
    container_name: CoreVS
    build:
      context: .
-     dockerfile: Core/Dockerfile
+     dockerfile: ./Core/Dockerfile
    ports:
      - "80:80"
-   networks:
-     - core-dev
+   # networks:
+   #   - core-dev
    depends_on:
      - postgres_db
   postgres_db:
@@ -24,8 +24,8 @@ services:
       PGDATA: "/var/lib/postgresql/data/pgdata"
     ports:
       - "5440:5432"
-    networks:
-      - core-dev
+    # networks:
+    #   - core-dev
     volumes:
       - postgres-data:/var/lib/postgresql/data
   pgadmin:
@@ -45,7 +45,7 @@ services:
         limits:
           cpus: '0.5'
           memory: 1G
-    networks:
-      - core-dev
+    # networks:
+    #   - core-dev
 volumes:
   postgres-data:

@@ -14,6 +14,7 @@ namespace Core.Data
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products{ get; set; }
+        public DbSet<Company> Companies { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,6 +25,18 @@ namespace Core.Data
                     new Category { Id = 2, Name = "SciFi", DisplayOrder = 100 },
                     new Category { Id = 3, Name = "History", DisplayOrder = 1004 }
                 );
+            modelBuilder.Entity<Company>().HasData(
+                   new Company
+                   {
+                       Id = 1,
+                       Name = "TestCorp",
+                       StreetAddress = "Pushkina, 1",
+                       City = "Saint Petersburg",
+                       State = "Leningradskaya oblast",
+                       PostalCode = 100000,
+                       PhoneNumber = "8 800 000 00 00"
+                   }
+               );
             modelBuilder.Entity<Product>().HasData(
                     new Product
                     {

@@ -1,0 +1,50 @@
+﻿@model List<Company>
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">
+                Product List
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Company" asp-action="Upsert" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Create new category
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+<table id="tblData" class="table table-boarded table-striped">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Street Address
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                State
+            </th>
+            <th>
+                PostalCode
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts{
+    <script src="~/js/company.js"></script>
+                }

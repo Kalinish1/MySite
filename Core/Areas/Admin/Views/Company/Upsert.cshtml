@@ -1,0 +1,78 @@
+﻿@model Company
+
+<div class="card shadow border-0 my-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-4">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-primary">@(Model.Id != 0 ? "Update" : "Create") Product</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<form method="post" enctype="multipart/form-data">
+    <input asp-for="@Model.Id" hidden />
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4">
+                @*<div asp-validation-summary="All"></div>*@
+                <div class="mb-3 row p-1">
+                    <label asp-for="@Model.Name" class="p-0"></label>
+                    <input asp-for="@Model.Name" class="form-control" />
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="@Model.StreetAddress" class="p-0"></label>
+                    <input asp-for="@Model.StreetAddress" class="form-control" />
+                    <span asp-validation-for="@Model.StreetAddress" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="@Model.City" class="p-0"></label>
+                    <input asp-for="@Model.City" class="form-control" />
+                    <span asp-validation-for="@Model.City" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="@Model.State" class="p-0"></label>
+                    <input asp-for="@Model.State" class="form-control" />
+                    <span asp-validation-for="@Model.State" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="@Model.PostalCode" class="p-0"></label>
+                    <input asp-for="@Model.PostalCode" class="form-control" />
+                    <span asp-validation-for="@Model.PostalCode" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="@Model.PhoneNumber" class="p-0"></label>
+                    <input asp-for="@Model.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        @if (Model.Id != 0)
+                        {
+                            <button type="submit" class="btn btn-primary form-control">Update</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary form-control">Create</button>
+
+                        }
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary  form-control">Back to list</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts{
+    @{
+        // makes server side validation to client side (except custom validations)
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
