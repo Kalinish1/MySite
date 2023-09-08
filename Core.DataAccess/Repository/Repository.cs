@@ -41,7 +41,7 @@ namespace Core.DataAccess.Repository
         }
 
         //Category,CoverType
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public IEnumerable<T> GetAll(System.Linq.Expressions.Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             if(!string.IsNullOrEmpty(includeProperties))
@@ -52,6 +52,8 @@ namespace Core.DataAccess.Repository
                     query = query.Include(property);
                 }
             }
+            if (filter != null)
+                query = query.Where(filter);
             return query.ToList();
         }
 

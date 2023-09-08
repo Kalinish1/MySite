@@ -44,7 +44,19 @@ namespace Core.Web.Areas.Customer.Controllers
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             cart.ApplicationUserId = userId;
-            _unitOfWork.ShoppingCart.Add(cart);
+
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get( u => u.ApplicationUserId == userId &&
+                u.ProductId == cart.ProductId);
+            if (cartFromDb != null) 
+            { //cart exists
+                cartFromDb.Count += cart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+            }
+            else
+            {// add cart
+
+                _unitOfWork.ShoppingCart.Add(cart);
+            }
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }
