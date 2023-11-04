@@ -47,4 +47,5 @@ app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true); //to fix time issues
 app.Run();

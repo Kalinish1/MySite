@@ -16,6 +16,8 @@ namespace Core.DataAccess.Repository
         public ICompanyRepository Company { get; set; }
         public IShoppingCartRepository ShoppingCart { get; set; }
         public IApplicationUserRepository ApplicationUser { get; set; }
+        public IOrderDetailRepository OrderDetail { get; set; }
+        public IOrderHeaderRepository OrderHeader { get; set; }
 
         private ApplicationDbContext _db;
         public UnitOfWork(ApplicationDbContext db)
@@ -26,6 +28,8 @@ namespace Core.DataAccess.Repository
             Company = new CompanyRepository(_db);
             ShoppingCart = new ShoppingCartRepository(_db);
             ApplicationUser = new ApplicationUserRepository(_db);
+            OrderDetail = new OrderDetailRepository(_db);
+            OrderHeader = new OrderHeaderRepository(_db);
 
         }
         public void Save()
